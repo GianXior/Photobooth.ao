@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Photobooth Gratis</title>
+<style>
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+}
+video, canvas {
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+}
+button {
+    padding: 12px 20px;
+    margin: 10px;
+    font-size: 16px;
+}
+</style>
+</head>
+<body>
+
+<h2>📸 Photobooth Online Gratis</h2>
+
+<video id="video" autoplay></video>
+<br>
+<button onclick="takePhoto()">Ambil Foto</button>
+<br>
+<canvas id="canvas"></canvas>
+<br>
+<a id="download" download="photobooth.png">
+    <button>Download Foto</button>
+</a>
+
+<script>
+const video = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+const download = document.getElementById("download");
+
+// Aktifkan kamera
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => {
+    video.srcObject = stream;
+})
+.catch(err => {
+    alert("Kamera tidak dapat diakses");
+});
+
+// Ambil foto
+function takePhoto() {
+    const context = canvas.getContext("2d");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0);
+    download.href = canvas.toDataURL("image/png");
+}
+</script>
+
+</body>
+</html>
